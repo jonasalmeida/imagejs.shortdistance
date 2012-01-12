@@ -21,7 +21,7 @@ Shortest distances between<br>
 		var ztxt=d[0]+'\n';for(var i=1;i<d.length-1;i++){ztxt+=d[i]+'\n'};ztxt+=d[d.length-1];z.value=ztxt;
 	}
 	parseCoordinates=function(xy){
-		return xy.value.split('\n').map(function(a){return a.split('\t').map(function(b){return (JSON.parse(b))})});
+		return xy.value.split('\n').map(function(a){return a.replace(/[^0-9.e+-]+/g,'\t').split('\t').map(function(b){return (JSON.parse(b))})});
 	}
 	
 </script>
