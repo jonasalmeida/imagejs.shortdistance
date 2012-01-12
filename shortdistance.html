@@ -2,46 +2,11 @@
 <body>
 Shortest distances between<br>
 <textarea id=x>
-74	537
-75	511
-98	546
-158	459
-168	438
-184	407
-192	438
-407	292
-434	237
-498	287
-611	250
-535	260
-615	140
-692	149
-643	186</textarea> and <textarea id=y>
-50	308
-76	293
-102	275
-130	261
-155	243
-185	234
-211	220
-231	199
-261	196
-287	185
-314	171
-337	154
-360	137
-390	124
-421	114
-449	101
-479	97
-507	89
-536	80
-567	74
-596	70
-626	63
-656	58
-686	48
-710	28</textarea> <button onClick="shortestDistance()"> = </button> <textarea id=z></textarea>
+1	2
+3	4</textarea> and <textarea id=y>
+1	2
+3	5
+4	4</textarea> <button onClick="shortestDistance()"> = </button> <textarea id=z></textarea>
 
 <script>
 	//id = function(x){return document.getElementById(x)};
@@ -50,9 +15,11 @@ Shortest distances between<br>
 		var xx=parseCoordinates(x); // numerical coordinates
 		var yy=parseCoordinates(y);
 		// calculate Euclidean distance
-		var zz = xx.map(function(xi){return yy.map(function(yj){return Math.pow(Math.pow(xi[0]-yj[0],2)+Math.pow(xi[1]-yj[1],2),1/2)})}).reduce(function(a,b){if(a>=b){return a}else{return b}});
+		var zz = xx.map(function(xi){return yy.map(function(yj){return [xi,yj]})}); // cross-tabulation
+		var dd = zz.map(function(xy){return xy.map(function(xyi){return Math.pow(Math.pow(xyi[0][0]-xyi[1][0],2)+Math.pow(xyi[0][1]-xyi[1][1],2),1/2)})}); // Euclidean distances
+		var d = dd.map(function(di){return di.reduce(function(a,b){if(a<=b){return a}else{return b}})}); // shortest distance
 		// parse distances into z's text area
-		ztxt=zz[0]+'\n';for(var i=0;i<zz.length-1;i++){ztxt+=zz[i]+'\n'};ztxt+=zz[zz.length-1];z.value=ztxt;
+		ztxt=d[0]+'\n';for(var i=1;i<d.length-1;i++){ztxt+=d[i]+'\n'};ztxt+=d[d.length-1];z.value=ztxt;
 	}
 	parseCoordinates=function(xy){
 		return xy.value.split('\n').map(function(a){return a.split('\t').map(function(b){return (JSON.parse(b))})});
