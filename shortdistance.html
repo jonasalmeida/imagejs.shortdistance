@@ -12,14 +12,13 @@ Shortest distances between<br>
 	//id = function(x){return document.getElementById(x)};
 	x.style.height=y.style.height=z.style.height=100;
 	shortestDistance=function(){
-		var xx=parseCoordinates(x); // numerical coordinates
-		var yy=parseCoordinates(y);
+		var xx=parseCoordinates(x),yy=parseCoordinates(y); // numerical coordinates
 		// calculate Euclidean distance
-		var zz = xx.map(function(xi){return yy.map(function(yj){return [xi,yj]})}); // cross-tabulation
+		var zz = xx.map(function(xi){return yy.map(function(yj){return [xi,yj]})}); // cross-tabulation of coordinates
 		var dd = zz.map(function(xy){return xy.map(function(xyi){return Math.pow(Math.pow(xyi[0][0]-xyi[1][0],2)+Math.pow(xyi[0][1]-xyi[1][1],2),1/2)})}); // Euclidean distances
 		var d = dd.map(function(di){return di.reduce(function(a,b){if(a<=b){return a}else{return b}})}); // shortest distance
 		// parse distances into z's text area
-		ztxt=d[0]+'\n';for(var i=1;i<d.length-1;i++){ztxt+=d[i]+'\n'};ztxt+=d[d.length-1];z.value=ztxt;
+		var ztxt=d[0]+'\n';for(var i=1;i<d.length-1;i++){ztxt+=d[i]+'\n'};ztxt+=d[d.length-1];z.value=ztxt;
 	}
 	parseCoordinates=function(xy){
 		return xy.value.split('\n').map(function(a){return a.split('\t').map(function(b){return (JSON.parse(b))})});
